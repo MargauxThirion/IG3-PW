@@ -1,7 +1,7 @@
 const http = require('http');
 const app = require('./app');
 
-const port = process.env.PORT || 3500;
+const port = process.env.PORT || 8000;
 
 // cherche et gère les différentes erreurs possibles
 const errorHandler = error => {
@@ -33,4 +33,4 @@ server.on('listenning', () => {
     console.log("Listenning on" + bind);
 })
 
-server.listen(3500);
+server.listen(8000);

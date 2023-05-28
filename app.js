@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const annonceRoutes = require('./routes/annonce');
 const userURoutes = require('./routes/userU');
-const userARoutes = require('./routes/userA');
+const userAssoRoutes = require('./routes/userAsso');
 const competenceRoutes = require('./routes/competence');
 const avisRoutes = require('./routes/avis');
 const participerRoutes = require('./routes/participer');
@@ -41,7 +41,7 @@ app.get('/', (req, res)=> {
 });
 app.use('/annonce', annonceRoutes);
 app.use('/auth', userURoutes);
-app.use('/userA', userARoutes);
+app.use('/userAsso', userAssoRoutes);
 app.use('/competence', competenceRoutes);
 app.use('/avis', avisRoutes);
 app.use('/participer', participerRoutes);
