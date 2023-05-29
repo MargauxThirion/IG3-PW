@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const UserBen = require('../models/userBen');
 const jwt = require('jsonwebtoken');
+const express = require('express');
+const cookieParser = require('cookie-parser');
 
 //const maxAge = 3 * 24 * 60 * 60 * 1000; // 3 jours en ms
 
@@ -30,33 +32,6 @@ exports.signup = (req, res, next) => {  //ajout user dans bd
         .catch(error => res.status(500).json({ error}));
 };
 
-/*exports.login = (req, res, next) => {
-    UserBen.findOne({emailU: req.body.emailU})
-    .then(userBen => {
-        if (!userBen) {
-            return res.status(401).json({ message: "email incorrect"}); // si utilisateur pas dans bd
-        }
-        bcrypt.compare(req.body.passwordU, userBen.passwordU)    //compare mdp entré par le user avec le hash enregistré dans bd
-        const payload = {email:req.body.emailU, IsAsso:False};
-        const token = createToken(payload);
-        res.cookie('jwt', token, {httpOnly: true, maxAge: process.env.MAX_AGE})
-        res.status(201).json({ email:req.body.emailU, token: token })
-        .then(valid => {
-            if (!valid) {
-                return res.status(401).json({ message: "mot de passe incorrect" });
-            }
-            res.status(200).json({
-                const payload = {email:req.body.emailU, IsAsso:False},
-                const token = createToken(payload),
-                res.cookie('jwt', token, {httpOnly: true, maxAge: process.env.MAX_AGE}),
-                res.status(201).json({ email:req.body.emailU, token: token })
-            });
-        })
-        .catch(error => res.status(500).json({ error }));
-    })
-    .catch(error => res.status(500).json({error}));
-};
-*/
 exports.login = (req, res, next) => {
     UserBen.findOne({ emailU: req.body.emailU })
         .then(userBen => {
@@ -70,9 +45,9 @@ exports.login = (req, res, next) => {
                     
                     const payload = { email: req.body.emailU, IsAsso: false };
                     const token = createToken(payload);
-                    
                     res.cookie('jwt', token, { httpOnly: true, maxAge: process.env.MAX_AGE });
                     res.status(200).json({ email: req.body.emailU, token: token });
+                    res.send('Connexion réussie !');
                 })
                 .catch(error => res.status(500).json({ error }));
         })

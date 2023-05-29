@@ -1,8 +1,15 @@
 const bcrypt = require('bcrypt');
 const UserAsso = require('../models/userAsso');
 const jwt = require('jsonwebtoken');
+const express = require('express');
+const cookieParser = require('cookie-parser');
 
-
+const createToken = (payload) => {
+    return jwt.sign({payload}, process.env.SECRET_TOKEN, {
+      expiresIn: process.env.MAX_AGE
+    })
+  };
+  
 exports.signup = (req, res, next) => {  //ajout user dans bd
     bcrypt.hash(req.body.passwordA, 10)
         .then(hash => {     // crypte le mdp
