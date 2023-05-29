@@ -34,15 +34,15 @@ exports.login = (req, res, next) => {
     UserBen.findOne({emailU: req.body.emailU})
     .then(userBen => {
         if (!userBen) {
-            return res.status(401).json({ message: "login/mot de passe incorrecte"}); // si utilisateur pas dans bd
+            return res.status(401).json({ message: "email incorrect"}); // si utilisateur pas dans bd
         }
         bcrypt.compare(req.body.passwordU, userBen.passwordU)    //compare mdp entré par le user avec le hash enregistré dans bd
-        const token = createToken(userBen._id)
+        /*const token = createToken(userBen._id)
         res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
-        res.status(201).json({ userBen: userBen._id, token: token })
+        res.status(201).json({ userBen: userBen._id, token: token })*/
         .then(valid => {
             if (!valid) {
-                return res.status(401).json({ message: "login/mot de passe incorrecte" });
+                return res.status(401).json({ message: "mot de passe incorrect" });
             }
             res.status(200).json({
                 userIdU: userBen._idU,
