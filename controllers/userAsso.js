@@ -52,24 +52,10 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({error, message: "erreur de recherche dans la bd"}));
 };
 
-exports.getProfile = (req, res, next) => {
-    const userIdA = req.user.userIdA;
-  
-    UserAsso.findById(userIdA)
-      .then(userAsso => {
-        if (!userAsso) {
-          return res.status(404).json({ message: 'Utilisateur Association non trouvé.' });
-        }
-  
-        const profile = {
-          nomA: userAsso.nomA,
-          emailA: userAsso.emailA,
-          adresseA: userAsso.adresseA,
-          num_telA: userAsso.num_telA,
-          descA: userAsso.descA
-        };
-  
-        res.status(200).json({ profile });
-      })
-      .catch(error => res.status(500).json({ error, message: 'Erreur lors de la récupération du profil.' }));
-  };
+
+exports.getProfileByMail = (req, res, next) => {
+    const decodedEmail = decodeURIComponent(req.params.emailA);
+    UserAsso.find({emailA: decodedEmail})
+    .then((userAsso) => { res.status(200).json(userAsso)})
+    .catch((error) => {res.status(404).json({error: error})});
+};

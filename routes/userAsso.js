@@ -5,6 +5,6 @@ const userAssoCtrl = require('../controllers/userAsso');
 
 router.post('/signup', userAssoCtrl.signup);    
 router.post('/login', userAssoCtrl.login);
-router.get('/profile',authenticateToken, userAssoCtrl.getProfile);
+router.get('/:emailA', userAssoCtrl.getProfileByMail);
 
 module.exports = router;
