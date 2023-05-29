@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-const userUSchema = mongoose.Schema({
-  num_userU: {type: Number, required: true, unique: true},
+const userBenSchema = mongoose.Schema({
   emailU: { type: String, required: true, unique: true },
   passwordU: { type: String, required: true },
   nomU: { type: String, required: true },
@@ -11,6 +10,6 @@ const userUSchema = mongoose.Schema({
   competenceU: { type: String, required: true },
 });
 
-userUSchema.plugin(uniqueValidator);
+userBenSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model('UserU', userUSchema);
+module.exports = mongoose.model('UserBen', userBenSchema);
