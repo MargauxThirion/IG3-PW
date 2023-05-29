@@ -1,0 +1,10 @@
+{
+    "services": [
+      {
+        "name": "TerraShift-backend",
+        "buildCommand": "npm install",
+        "startCommand": "npm run dev",
+        "directory": "serveur.js"
+      }
+    ]
+}
