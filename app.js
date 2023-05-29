@@ -21,11 +21,6 @@ mongoose.connect(process.env.DATABASE_URL,
 const app = express();
 
 app.use(cors());
-
-// header permettant d'accéder à l'API depuis n'importe où
-// ajoute les headers mentionnés aux requêtes envoyées vers l'API
-// envoie requête avec les méthodes GET, POST ...
-//sert à éviter les erreurs de CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
