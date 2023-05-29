@@ -48,6 +48,7 @@ exports.login = (req, res, next) => {
                     res.cookie('jwt', token, { httpOnly: true, maxAge: process.env.MAX_AGE });
                     res.status(200).json({ email: req.body.emailU, token: token });
                     res.send('Connexion réussie !');
+                    res.setHeader('Authorization', `Bearer ${token}`);
                 })
                 .catch(error => res.status(500).json({ error }));
         })
