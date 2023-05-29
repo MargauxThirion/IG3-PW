@@ -9,7 +9,7 @@ const createToken = (payload) => {
       expiresIn: process.env.MAX_AGE
     })
   };
-  
+
 exports.signup = (req, res, next) => {  //ajout user dans bd
     bcrypt.hash(req.body.passwordA, 10)
         .then(hash => {     // crypte le mdp
@@ -34,29 +34,28 @@ exports.signup = (req, res, next) => {  //ajout user dans bd
             });
 };
 
-exports.login = (req, res, next) => {
-    UserAsso.findOne({emailA: req.body.emailA})
-    .then(userAsso => {
+exports.login = async (req, res, next) => {
+    try {
+        const userAsso = await UserAsso.findOne({ emailA: req.body.emailA });
         if (!userAsso) {
-            return res.status(401).json({ message: "email inconnu"}); // si utilisateur pas dans bd
+            return res.status(401).json({ message: "Email incorrect" });
         }
-        bcrypt.compare(req.body.passwordA, userAsso.passwordA)    //compare mdp entré par le user avec le hash enregistré dans bd
-            .then(valid => {
-                if (!valid) {
-                    return res.status(401).json({ message: "mot de passe incorrect" });
-                }
-                res.status(200).json({
-                    userIdA: userAsso._idA,
-                    token: jwt.sign(
-                        {userIdA: userAsso._idA},
-                        'RANDOM_TOKEN_SECRET',
-                        { expiresIn: '24h' }
-                    )
-                });
-            })
-            .catch(error => res.status(500).json({ error, message: "erreur de cryptage mdp" }));
-    })
-    .catch(error => res.status(500).json({error, message: "erreur de recherche dans la bd"}));
+
+        const valid = await bcrypt.compare(req.body.passwordA, userAsso.passwordA);
+        if (!valid) {
+            return res.status(401).json({ message: "Mot de passe incorrect" });
+        }
+
+        const payload = { email: req.body.emailA, IsAsso: true };
+        const token = createToken(payload);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: process.env.MAX_AGE });
+        res.status(200).json({email : req.body.emailA, token: token });
+        res.send('Connexion réussie !');
+        res.setHeader('Authorization', `Bearer ${token}`);
+        console.log('token:', token);
+    } catch (error) {
+        res.status(500).json({ error });
+    }
 };
 
 
