@@ -2,6 +2,7 @@ require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
 
@@ -30,9 +31,10 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(express.json());    // pour gérer requète POST, donne le body des requêtes "application/json" sur req
 app.get('/', (req, res)=> {
-  res.status(200).json({message : "coucou"})
+  res.status(200).json({message : "Bienvenue sur le serveur"})
 });
 app.use('/annonce', annonceRoutes);
 app.use('/userBen', userBenRoutes);
