@@ -5,6 +5,7 @@ const userBenCtrl = require('../controllers/userBen');
 
 router.post('/signup', userBenCtrl.signup);    //post car lié au front
 router.post('/login', userBenCtrl.login);
-router.get('/profile',authenticateToken, userBenCtrl.getProfile);
+router.get('/:emailU', userBenCtrl.getProfileByMail);
+
 
 module.exports = router;

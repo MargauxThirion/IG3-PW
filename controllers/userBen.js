@@ -55,25 +55,9 @@ exports.login = async (req, res, next) => {
     }
 };
 
-
-exports.getProfile = (req, res, next) => {
-    const userIdU = req.user.userIdU;
-  
-    UserBen.findById(userIdU)
-      .then(userBen => {
-        if (!userBen) {
-          return res.status(404).json({ message: 'Utilisateur Association non trouvé.' });
-        }
-  
-        const profile = {
-            emailU: req.body.emailU,
-            nomU: req.body.nomU,
-            prenomU: req.body.prenomU,
-            adresseU: req.body.adresseU,
-            competenceU: req.body.competenceU,
-        };
-  
-        res.status(200).json({ profile });
-      })
-      .catch(error => res.status(500).json({ error, message: 'Erreur lors de la récupération du profil.' }));
-  };
+exports.getProfileByMail = (req, res, next) => {
+    const decodedEmail = decodeURIComponent(req.params.emailU);
+    UserBen.find({emailU: decodedEmail})
+    .then((userBen) => { res.status(200).json(userBen)})
+    .catch((error) => {res.status(404).json({error: error})});
+};
