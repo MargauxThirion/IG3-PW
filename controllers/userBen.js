@@ -31,7 +31,7 @@ exports.signup = (req, res, next) => {  //ajout user dans bd
         })
         .catch(error => res.status(500).json({ error}));
 };
-
+/*
 exports.login = (req, res, next) => {
     UserBen.findOne({ emailU: req.body.emailU })
         .then(userBen => {
@@ -49,13 +49,36 @@ exports.login = (req, res, next) => {
                     res.status(200).json({ email: req.body.emailU, token: token });
                     res.send('Connexion réussie !');
                     res.setHeader('Authorization', `Bearer ${token}`);
-                    console.log('token:', token);
                 })
                 .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
 };
+*/
 
+exports.login = async (req, res, next) => {
+    try {
+        const userBen = await UserBen.findOne({ emailU: req.body.emailU });
+        if (!userBen) {
+            return res.status(401).json({ message: "Email incorrect" });
+        }
+
+        const valid = await bcrypt.compare(req.body.passwordU, userBen.passwordU);
+        if (!valid) {
+            return res.status(401).json({ message: "Mot de passe incorrect" });
+        }
+
+        const payload = { email: req.body.emailU, IsAsso: false };
+        const token = createToken(payload);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: process.env.MAX_AGE });
+        res.status(200).json({ email: req.body.emailU, token: token });
+        res.send('Connexion réussie !');
+        res.setHeader('Authorization', `Bearer ${token}`);
+        console.log('token:', token);
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+};
 
 
 exports.getProfile = (req, res, next) => {
