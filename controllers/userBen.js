@@ -49,6 +49,7 @@ exports.login = (req, res, next) => {
                     res.status(200).json({ email: req.body.emailU, token: token });
                     res.send('Connexion réussie !');
                     res.setHeader('Authorization', `Bearer ${token}`);
+                    console.log('token:', token);
                 })
                 .catch(error => res.status(500).json({ error }));
         })
