@@ -2,11 +2,11 @@ const bcrypt = require('bcrypt');
 const UserBen = require('../models/userBen');
 const jwt = require('jsonwebtoken');
 
-const maxAge = 3 * 24 * 60 * 60 * 1000;
+//const maxAge = 3 * 24 * 60 * 60 * 1000; // 3 jours en ms
 
-const createToken = (id) => {
-  return jwt.sign({id}, process.env.TOKEN_SECRET, {
-    expiresIn: maxAge
+const createToken = (payload) => {
+  return jwt.sign({payload}, process.env.SECRET_TOKEN, {
+    expiresIn: process.env.MAX_AGE
   })
 };
 
@@ -30,33 +30,55 @@ exports.signup = (req, res, next) => {  //ajout user dans bd
         .catch(error => res.status(500).json({ error}));
 };
 
-exports.login = (req, res, next) => {
+/*exports.login = (req, res, next) => {
     UserBen.findOne({emailU: req.body.emailU})
     .then(userBen => {
         if (!userBen) {
             return res.status(401).json({ message: "email incorrect"}); // si utilisateur pas dans bd
         }
         bcrypt.compare(req.body.passwordU, userBen.passwordU)    //compare mdp entré par le user avec le hash enregistré dans bd
-        /*const token = createToken(userBen._id)
-        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
-        res.status(201).json({ userBen: userBen._id, token: token })*/
+        const payload = {email:req.body.emailU, IsAsso:False};
+        const token = createToken(payload);
+        res.cookie('jwt', token, {httpOnly: true, maxAge: process.env.MAX_AGE})
+        res.status(201).json({ email:req.body.emailU, token: token })
         .then(valid => {
             if (!valid) {
                 return res.status(401).json({ message: "mot de passe incorrect" });
             }
             res.status(200).json({
-                userIdU: userBen._idU,
-                token: jwt.sign(
-                    {userIdU: userBen._idU},
-                    'RANDOM_TOKEN_SECRET',
-                    { expiresIn: '24h' }
-                )
+                const payload = {email:req.body.emailU, IsAsso:False},
+                const token = createToken(payload),
+                res.cookie('jwt', token, {httpOnly: true, maxAge: process.env.MAX_AGE}),
+                res.status(201).json({ email:req.body.emailU, token: token })
             });
         })
         .catch(error => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({error}));
 };
+*/
+exports.login = (req, res, next) => {
+    UserBen.findOne({ emailU: req.body.emailU })
+        .then(userBen => {
+            if (!userBen) {return res.status(401).json({ message: "Email incorrect" })}
+            
+            bcrypt.compare(req.body.passwordU, userBen.passwordU)
+                .then(valid => {
+                    if (!valid) {
+                        return res.status(401).json({ message: "Mot de passe incorrect" });
+                    }
+                    
+                    const payload = { email: req.body.emailU, IsAsso: false };
+                    const token = createToken(payload);
+                    
+                    res.cookie('jwt', token, { httpOnly: true, maxAge: process.env.MAX_AGE });
+                    res.status(200).json({ email: req.body.emailU, token: token });
+                })
+                .catch(error => res.status(500).json({ error }));
+        })
+        .catch(error => res.status(500).json({ error }));
+};
+
 
 
 exports.getProfile = (req, res, next) => {
