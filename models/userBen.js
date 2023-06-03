@@ -7,6 +7,7 @@ const userBenSchema = mongoose.Schema({
   nomU: { type: String, required: true },
   prenomU: { type: String, required: true },
   adresseU: { type: String, required: true },
+  num_telU: { type: String, required: true },
   competenceU: { type: String, required: true },
 });
 

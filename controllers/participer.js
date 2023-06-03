@@ -54,6 +54,24 @@ exports.getOneParticiperMission = (req, res, next) => {
 );
 };
 
+exports.getParticiperUser = (req, res, next) => {
+  Participer.find({
+    id_user: req.params.id_user
+  }).then(
+    (participer) => {
+      const missionIds = participer.map((participation) => participation.missionId);
+      res.status(200).json(missionIds);
+    }
+  ).catch(
+    (error) => {
+      res.status(404).json({
+        error: error
+      });
+    }
+  );
+};
+
+
 // if user.Admin == true
 exports.modifyParticiper = (req, res, next) => {
   const participer = new Participer({

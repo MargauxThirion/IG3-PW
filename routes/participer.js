@@ -8,6 +8,7 @@ router.get('/', participerCtrl.getAllParticiper);
 router.post('/', participerCtrl.createParticiper);
 router.get('/:id', participerCtrl.getOneParticiper);
 router.get('/mission/:id', participerCtrl.getOneParticiperMission);
+router.get('/user/:id_user', participerCtrl.getParticiperUser);
 router.put('/:id', participerCtrl.modifyParticiper);
 router.delete('/:id', participerCtrl.deleteParticiper);
 

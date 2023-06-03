@@ -19,6 +19,7 @@ exports.signup = (req, res, next) => {  //ajout user dans bd
                 nomU: req.body.nomU,
                 prenomU: req.body.prenomU,
                 adresseU: req.body.adresseU,
+                num_telU: req.body.num_telU,
                 competenceU: req.body.competenceU,
                 
             });
