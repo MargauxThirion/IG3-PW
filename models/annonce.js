@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const annonceSchema = mongoose.Schema({
-  nom_association: { type: String, required: true },
+  nom_association: { type: String, required: true},
   nom_mission: { type: String, required: true },
   numero_mission: { type: Number, required: true },
   email : { type: String, required: true },
