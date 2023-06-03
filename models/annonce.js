@@ -14,7 +14,6 @@ const annonceSchema = mongoose.Schema({
   ville: { type: String, required: true },
   code_postal: { type: Number, required: true },
   rue: { type: String, required: true },
-  image: { type: Buffer, required: false },
 });
 
 module.exports = mongoose.model('Annonce', annonceSchema);

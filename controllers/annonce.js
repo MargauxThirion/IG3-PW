@@ -16,7 +16,6 @@ exports.createAnnonce = (req, res, next) => {
     ville: req.body.ville,
     code_postal: req.body.code_postal,
     rue: req.body.rue,
-    image: req.body.image,
   
   });
   annonce.save()
@@ -53,7 +52,6 @@ exports.modifyAnnonce = (req, res, next) => {
     ville: req.body.ville,
     code_postal: req.body.code_postal,
     rue: req.body.rue,
-    image: req.body.image,
   });
   Annonce.updateOne({numero_mission: req.params.id}, annonce)
   .then(() => {res.status(201).json({message: "Annonce updated successfully!"});})
