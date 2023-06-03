@@ -53,7 +53,7 @@ exports.modifyAnnonce = (req, res, next) => {
     code_postal: req.body.code_postal,
     rue: req.body.rue,
   });
-  Annonce.updateOne({numero_mission: req.params.id}, annonce)
+  Annonce.updateOne({numero_mission: req.params.numero_mission}, annonce)
   .then(() => {res.status(201).json({message: "Annonce updated successfully!"});})
   .catch((error) => {res.status(400).json({error: error})})
 };

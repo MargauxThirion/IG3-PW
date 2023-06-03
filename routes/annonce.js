@@ -8,7 +8,7 @@ router.get('/', annonceCtrl.getAllAnnonce);
 router.post('/', annonceCtrl.createAnnonce);
 router.get('/:id', annonceCtrl.getOneAnnonce);
 router.get('/mission/:id', annonceCtrl.getOneAnnonceMission);
-router.put('/:id', annonceCtrl.modifyAnnonce);
+router.put('/:numero_mission', annonceCtrl.modifyAnnonce);
 router.delete('/:numero_mission', annonceCtrl.deleteAnnonce);
 
 module.exports = router;
