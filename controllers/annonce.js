@@ -38,7 +38,7 @@ exports.getOneAnnonceMission = (req, res, next) => {
 
 // if userA.Admin == true
 exports.modifyAnnonce = (req, res, next) => {
-  const annonce = new Annonce({
+  const annonce = {
     nom_annonce: req.body.nom_annonce,
     nom_mission: req.body.nom_mission,
     numero_mission: req.body.numero_mission,
@@ -52,11 +52,21 @@ exports.modifyAnnonce = (req, res, next) => {
     ville: req.body.ville,
     code_postal: req.body.code_postal,
     rue: req.body.rue,
-  });
-  Annonce.findOneAndUpdate({numero_mission: req.params.id}, annonce)
-  .then(() => {res.status(202).json({message: "Annonce updated successfully!"});})
-  .catch((error) => {res.status(400).json({error: error})})
+  };
+
+  Annonce.findOneAndUpdate({ numero_mission: req.params.id }, annonce, { new: true })
+    .then(updatedAnnonce => {
+      if (updatedAnnonce) {
+        res.status(202).json({ message: "Annonce updated successfully!", annonce: updatedAnnonce });
+      } else {
+        res.status(404).json({ message: "Annonce not found" });
+      }
+    })
+    .catch(error => {
+      res.status(400).json({ error: error });
+    });
 };
+
 
 exports.deleteAnnonce = (req, res, next) => {
   Annonce.deleteOne({numero_mission: req.params.numero_mission})
