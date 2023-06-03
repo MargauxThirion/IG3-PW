@@ -49,7 +49,7 @@ exports.login = async (req, res, next) => {
         const payload = { email: req.body.emailA, IsAsso: true };
         const token = createToken(payload);
         res.cookie('jwt', token, { httpOnly: true, maxAge: process.env.MAX_AGE });
-        res.status(200).json({email : req.body.emailA, token: token });
+        res.status(200).json({email : req.body.emailA, token: token, nom: req.body.nomA });
         res.send('Connexion réussie !');
         res.setHeader('Authorization', `Bearer ${token}`);
         console.log('token:', token);

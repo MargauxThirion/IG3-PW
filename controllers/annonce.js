@@ -5,6 +5,7 @@ exports.createAnnonce = (req, res, next) => {
   const annonce = new Annonce({
     nom_association: req.body.nom_association,
     nom_mission: req.body.nom_mission,
+    email: req.body.email,
     numero_mission: req.body.numero_mission,
     desc: req.body.desc,
     date: req.body.date,
@@ -42,6 +43,7 @@ exports.modifyAnnonce = (req, res, next) => {
     nom_annonce: req.body.nom_annonce,
     nom_mission: req.body.nom_mission,
     numero_mission: req.body.numero_mission,
+    email: req.body.email,
     desc: req.body.desc,
     date: req.body.date,
     duree: req.body.duree,
