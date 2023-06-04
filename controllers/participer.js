@@ -109,6 +109,9 @@ exports.deleteParticiper = (req, res, next) => {
   );
 };
 
+
+
+
 exports.getAllParticiper = (req, res, next) => {
     Participer.find().then(
     (participer) => {
