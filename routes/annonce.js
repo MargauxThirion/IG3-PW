@@ -8,6 +8,7 @@ router.get('/', annonceCtrl.getAllAnnonce);
 router.post('/', annonceCtrl.createAnnonce);
 router.get('/:id', annonceCtrl.getOneAnnonce);
 router.get('/mission/:id', annonceCtrl.getOneAnnonceMission);
+router.get('/user/:email', annonceCtrl.getAllByEmail);
 router.put('/mission/:id', annonceCtrl.modifyAnnonce);
 router.delete('/:numero_mission', annonceCtrl.deleteAnnonce);
 
