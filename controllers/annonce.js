@@ -71,7 +71,7 @@ exports.modifyAnnonce = (req, res, next) => {
 exports.deleteAnnonce = (req, res, next) => {
   Annonce.deleteOne({numero_mission: req.params.numero_mission})
   .then(() => {res.status(200).json({message: "Deleted!"});})
-  .catch((error) => {res.status(400).json({error: error})});
+  .catch((error) => {res.status(400).json({message:"error",error: error})});
 };
 
 exports.getAllAnnonce = (req, res, next) => {
